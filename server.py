@@ -11,6 +11,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         query = parse.urlparse(self.path).query
         query_components = dict(qc.split("=") for qc in query.split("&"))
+        print(str(query_components))
         
         mode = query_components['mode']
         token = query_components['verify_token']
