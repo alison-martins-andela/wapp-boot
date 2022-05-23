@@ -1,6 +1,7 @@
 import os
 import http.server
 import socketserver
+from urllib import parse
 
 from http import HTTPStatus
 
@@ -8,9 +9,12 @@ VERIFY_TOKEN = "a1993ff202a0f1b4ffae"
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
-        mode = self.request['hub']['mode']
-        token = self.request['hub']['verify_token']
-        challenge = self.request['hub']['challenge']
+        query = parse.urlparse(self.path).query
+        query_components = dict(qc.split("=") for qc in query.split("&"))
+        
+        mode = query_components['mode']
+        token = query_components['verify_token']
+        challenge = query_components['challenge']
     
 
         if not(mode is None) and not(token is None):
@@ -29,7 +33,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 self.end_headers()   
         
 
-port = int(os.getenv('PORT', 80))
+port = int(os.getenv('PORT', 82))
 print('Listening on port %s' % (port))
 httpd = socketserver.TCPServer(('', port), Handler)
 httpd.serve_forever()
