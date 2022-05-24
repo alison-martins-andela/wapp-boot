@@ -13,9 +13,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         query_components = dict(qc.split("=") for qc in query.split("&"))
         print(str(query_components))
         
-        mode = query_components['mode']
-        token = query_components['verify_token']
-        challenge = query_components['challenge']
+        mode = query_components['hub.mode']
+        token = query_components['hub.verify_token']
+        challenge = query_components['hub.challenge']
     
 
         if not(mode is None) and not(token is None):
