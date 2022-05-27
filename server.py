@@ -5,7 +5,8 @@ from urllib import parse
 
 from http import HTTPStatus
 
-VERIFY_TOKEN = "a1993ff202a0f1b4ffae"
+verify_token_default = "a1993ff202a0f1b4ffae"
+VERIFY_TOKEN = os.getenv('FB_VERIFY_TOKEN', verify_token_default)
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
